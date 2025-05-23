@@ -1,0 +1,1 @@
+# To run all services (FastAPI, Celery, PostgreSQL, RabbitMQ, Redis)
