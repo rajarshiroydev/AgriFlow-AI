@@ -1,6 +1,6 @@
 # To run all services (FastAPI, Celery, PostgreSQL, RabbitMQ, Redis)
 # MARKETING_ENGINEER_AI/docker-compose.yml
-version: '3.8'
+
 
 services:
   rabbitmq:
