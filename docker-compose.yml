@@ -73,6 +73,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=postgresql://syngenta_user:syngenta_password@postgres_db:5432/syngenta_supplychain_db
+      - PYTHONPATH=/app # Crucial for imports like 'from app.routers...' to work
     command: python main.py run-api --host 0.0.0.0 --port 8000 --reload
     depends_on:
       rabbitmq:
