@@ -1,11 +1,8 @@
 # To run all services (FastAPI, Celery, PostgreSQL, RabbitMQ, Redis)
-# MARKETING_ENGINEER_AI/docker-compose.yml
-
-
 services:
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
-    container_name: marketing_rabbitmq # Consider syngenta_rabbitmq
+    container_name: syngenta_rabbitmq 
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -19,7 +16,7 @@ services:
 
   redis:
     image: redis:6.2-alpine
-    container_name: marketing_redis # Consider syngenta_redis
+    container_name: syngenta_redis 
     ports:
       - "6379:6379"
     volumes:
