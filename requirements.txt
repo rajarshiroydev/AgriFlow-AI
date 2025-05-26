@@ -1,6 +1,4 @@
-# SYNGENTA_AI_AGENT/requirements.txt
 # ... (FastAPI, Celery, CrewAI, OpenAI, etc. from your existing project)
-
 # For PostgreSQL
 psycopg2-binary
 sqlalchemy
@@ -9,14 +7,12 @@ pandas
 # For PDF processing (will be used in ingest_documents.py)
 langchain # (already likely there for Claude templates)
 pypdfium2 # Efficient PDF parsing, recommended by LangChain for PyPDFLoader
+langchain_community
+langchain-chroma
 # tiktoken # For token counting if doing complex chunking, often a LangChain dependency
 
 # For Vector Store (ChromaDB is a good local default)
 chromadb
+boto3 
 
-# For LangChain's Claude integration (already informed you have templates)
-# langchain_anthropic # (or whatever specific package the templates use)
-
-# For Amazon Embeddings via LangChain
-# langchain_community # (often needed for various integrations like Bedrock/Titan)
-# boto3 # AWS SDK, might be needed by LangChain for Titan
+CrewAI
