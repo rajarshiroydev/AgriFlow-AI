@@ -1,11 +1,12 @@
 import os
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from sqlalchemy import create_engine
 from langchain_community.utilities import SQLDatabase
-from langchain.agents import create_sql_agent, AgentExecutor # AgentExecutor is returned by create_sql_agent
-from langchain_community.agent_toolkits import SQLDatabaseToolkit
+# from langchain.agents import create_sql_agent, AgentExecutor # AgentExecutor is returned by create_sql_agent
+# from langchain_community.agent_toolkits import SQLDatabaseToolkit
+from langchain.chains import SQLDatabaseChain
 from crewai import Agent as CrewAIAgent, Task as CrewAITask, Crew, Process # Alias to avoid name clash
 from crewai.tools import tool # For creating CrewAI tools
 
