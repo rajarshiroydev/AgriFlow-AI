@@ -5,9 +5,10 @@ import os
 import logging
 from typing import List, Any
 
+
 from langchain_community.document_loaders import PyPDFium2Loader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 # Custom Embeddings class for the hackathon API
 from core.hackathon_llms import SyngentaHackathonEmbeddings
