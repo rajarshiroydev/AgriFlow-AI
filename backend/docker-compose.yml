@@ -1,0 +1,111 @@
+# To run all services (FastAPI, Celery, PostgreSQL, RabbitMQ, Redis)
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: syngenta_rabbitmq 
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: syngenta_redis 
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MONGODB can be added back if needed
+  # mongodb:
+  #   image: mongo:5.0
+  #   container_name: syngenta_mongodb
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongodb_syngenta_data:/data/db # Use a specific volume name
+  #   healthcheck:
+  #     test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  postgres_db:
+    image: postgres:14-alpine
+    container_name: syngenta_postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: syngenta_user
+      POSTGRES_PASSWORD: syngenta_password
+      POSTGRES_DB: syngenta_supplychain_db
+    volumes:
+      - postgres_syngenta_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U syngenta_user -d syngenta_supplychain_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: syngenta_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=postgresql://syngenta_user:syngenta_password@postgres_db:5432/syngenta_supplychain_db
+      - PYTHONPATH=/app # Crucial for imports like 'from app.routers...' to work
+    command: python main.py run-api --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      # mongodb: # If re-added
+      #   condition: service_healthy
+      postgres_db:
+        condition: service_healthy
+
+  worker:
+    build: .
+    container_name: syngenta_worker
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - C_FORCE_ROOT=1 # If running Celery as root in Docker
+      - DATABASE_URL=postgresql://syngenta_user:syngenta_password@postgres_db:5432/syngenta_supplychain_db
+    command: python main.py run-worker --queues celery,default,supply_chain_tasks # Added new queue
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      # mongodb: # If re-added
+      #   condition: service_healthy
+      postgres_db:
+        condition: service_healthy
+
+volumes:
+  rabbitmq_data:
+  redis_data:
+  # mongodb_syngenta_data: # If re-added
+  postgres_syngenta_data:
