@@ -1,1 +1,0 @@
-# Wrappers for LangChain/Claude/GPT-4o API calls if needed outside CrewAI

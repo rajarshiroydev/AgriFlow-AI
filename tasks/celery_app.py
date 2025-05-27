@@ -1,1 +1,0 @@
-# Celery application setup
