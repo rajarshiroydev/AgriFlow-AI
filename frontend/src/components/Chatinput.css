@@ -1,70 +1,69 @@
-.chat-input-container {
-    padding: 10px 15px;
-    background-color: var(--background-light);
-    border-top: 1px solid var(--border-color);
-    box-shadow: 0 -1px 3px rgba(0,0,0,0.03);
-  }
-  
-  .chat-input-form {
+/* frontend/src/components/ChatInput/ChatInput.css */
+
+.chat-input-form {
     display: flex;
-    align-items: flex-end; /* Align button with bottom of textarea if it grows */
+    align-items: center;
+    width: 100%; /* Form takes full width of its parent (.chat-input-container) */
+    /* 
+      The background, border-radius, shadow for the "pill" shape 
+      are handled by the .chat-input-container class in App.css 
+      when in landing-view-active.
+    */
   }
   
-  .chat-input-field {
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    margin-right: 10px;
-    font-size: 1em;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    resize: none; /* Prevent manual resize */
-    min-height: 24px; /* Roughly one line height + padding */
-    max-height: 120px; /* Limit growth to about 5 lines */
+  .chat-text-input {
+    flex-grow: 1; /* Input field takes up most of the space */
+    border: none; /* Crucial: Remove default input border */
+    outline: none; /* Crucial: Remove focus outline */
+    padding: 12px 18px; /* Internal padding for text within the input field */
+    font-size: 1rem; /* Or your desired font size, e.g., 0.9em, 15px */
     line-height: 1.4;
-    font-family: inherit; /* Inherit from body */
+    background-color: transparent; /* Crucial: Make input field's own background transparent */
+    color: var(--text-primary); /* Use theme variable for text color */
+    /* Ensure it inherits font-family from body or set explicitly if needed */
+    /* font-family: 'Roboto', sans-serif; */ 
   }
   
-  .chat-input-field:focus {
-    border-color: var(--syngenta-green-medium);
-    box-shadow: 0 0 0 2px rgba(0, 135, 90, 0.2); /* Focus ring using variable */
+  .chat-text-input::placeholder {
+    color: var(--text-secondary); /* Use theme variable for placeholder */
+    opacity: 0.7; /* Make placeholder slightly lighter */
   }
   
-  .chat-input-button {
-    background-color: var(--syngenta-green-medium);
+  .chat-send-button {
+    background-color: var(--accent-green); /* Use theme variable */
     color: white;
     border: none;
     border-radius: 50%; /* Circular button */
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-left: 8px; /* Space between input field and button */
     flex-shrink: 0; /* Prevent button from shrinking */
+    transition: background-color 0.2s ease-in-out;
   }
   
-  .chat-input-button:hover:not(:disabled) {
-    background-color: var(--syngenta-green-dark);
+  .chat-send-button svg {
+    /* If icon needs slight adjustment within button */
+    /* For FiSend size={20}, it should center well by default */
   }
   
-  .chat-input-button:disabled {
-    background-color: #cccccc;
+  .chat-send-button:hover:not(:disabled) {
+    background-color: var(--secondary-green); /* Darken on hover */
+  }
+  
+  .chat-send-button:disabled {
+    background-color: var(--border-color); /* Muted color when disabled */
+    /* color: var(--text-secondary); */ /* Lighter icon color when disabled */
     cursor: not-allowed;
   }
   
-  /* Simple spinner for loading state */
-  .spinner {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s ease-in-out infinite;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  /* 
+    No specific styles needed here for landing vs. chat view *within ChatInput.css*
+    because the parent container (.chat-input-container in App.css) 
+    handles the visual change (pill shape vs. full-width bar).
+    This ChatInput.css ensures the internal elements (text input, button)
+    are styled cleanly to fit within either parent style.
+  */

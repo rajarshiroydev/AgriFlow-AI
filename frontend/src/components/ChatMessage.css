@@ -92,18 +92,15 @@
      border-top: 1px dashed rgba(0,0,0,0.1);
   }
   
-  .extra-title {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-    color: var(--text-secondary);
+  /* Adjust extra titles for dark SQL theme if needed */
+  .ai-message .sql-container .extra-title {
+    color: var(--syngenta-green-dark); /* This might need to be lighter if on dark bg */
+    /* Example: color: #a9b7c6;  A typical light text color for Darcula */
   }
-  .user-message .extra-title {
-    color: rgba(255,255,255,0.8);
+  .user-message .sql-container .extra-title {
+    color: rgba(255,255,255,0.8); /* Should be fine on user's dark bubble */
   }
-  .ai-message .extra-title {
-    color: var(--syngenta-green-dark);
-  }
+  
   
   .sources-container ul {
     list-style-type: disc;
@@ -114,17 +111,51 @@
     margin-bottom: 3px;
   }
   
-  .sql-container .sql-code {
-    background-color: rgba(0,0,0,0.04);
-    padding: 8px 12px;
-    border-radius: 4px;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 0.9em;
-    border: 1px solid var(--border-color);
+  .sql-container .sql-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
   }
-  .user-message .sql-container .sql-code {
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
+  
+  /* Copy button styling for dark theme context */
+  .ai-message .copy-sql-button {
+    border: 1px solid #555; /* Darcula-like border */
+    color: #bbb; /* Light text on dark */
+    background-color: #313335; /* Slightly different from Darcula pre background */
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .ai-message .copy-sql-button:hover {
+    background-color: #454749;
+    color: #ccc;
+  }
+  
+  .user-message .copy-sql-button { /* For user message (if it can show SQL) */
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.8);
+    background-color: transparent; /* Assuming user bubble has dark BG */
+  }
+  .user-message .copy-sql-button:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+  
+  /* Wrapper for the SyntaxHighlighter component */
+  .sql-container .sql-code-block-wrapper {
+    /* The SyntaxHighlighter theme (darcula) will provide its own background and padding. */
+    /* This wrapper can provide an outer border or margin if needed. */
+    border-radius: 4px; /* To round the corners of the theme's block if desired */
+    overflow: hidden; /* To clip the theme's block to the border-radius */
+    /* border: 1px solid #555; */ /* Optional: if you want an outer border */
+    margin-top: 3px; /* Space between header and SQL block */
+  }
+  
+  /* No specific background needed for user messages if darcula is used, it will show its dark BG */
+  .user-message .sql-container .sql-code-block-wrapper {
+    /* border: 1px solid #777; */ /* Optional: adjust if needed */
   }

@@ -1,0 +1,6 @@
+<svg width="320" height="60" viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg"> 
+  <!-- Increased SVG width slightly to accommodate more space -->
+  <text x="10" y="45" class="agriflow-text-svg agriflow-part-svg">AgriFlow</text>
+  <text x="215" y="45" class="agriflow-text-svg ai-part-svg">.ai</text> 
+  <!-- YOU MUST TUNE x="215" VISUALLY IN YOUR BROWSER DEV TOOLS -->
+</svg>

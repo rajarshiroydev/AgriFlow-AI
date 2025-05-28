@@ -1,6 +1,7 @@
+// components/ChatInput.js (Assumed structure)
 import React, { useState } from "react";
 import "./ChatInput.css";
-import { FiSend } from "react-icons/fi"; // Send icon
+import { FiSend } from "react-icons/fi";
 
 function ChatInput({ onSendMessage, isLoading }) {
   const [inputValue, setInputValue] = useState("");
@@ -13,37 +14,24 @@ function ChatInput({ onSendMessage, isLoading }) {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      // Send on Enter, allow Shift+Enter for newline
-      e.preventDefault(); // Prevent default newline in input
-      handleSubmit(e);
-    }
-  };
-
   return (
-    <div className="chat-input-container">
-      <form onSubmit={handleSubmit} className="chat-input-form">
-        <textarea
-          className="chat-input-field"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Ask about policies or supply chain data..."
-          disabled={isLoading}
-          rows="1" // Start with 1 row, will expand
-        />
-        <button
-          type="submit"
-          className="chat-input-button"
-          disabled={isLoading}
-          title="Send message"
-        >
-          {isLoading ? <div className="spinner"></div> : <FiSend size={20} />}
-        </button>
-      </form>
-    </div>
+    <form className="chat-input-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="chat-text-input" // We will style this
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Ask about policies or supply chain data..."
+        disabled={isLoading}
+      />
+      <button
+        type="submit"
+        className="chat-send-button"
+        disabled={isLoading || !inputValue.trim()}
+      >
+        <FiSend size={20} />
+      </button>
+    </form>
   );
 }
-
 export default ChatInput;
