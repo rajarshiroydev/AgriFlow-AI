@@ -1,5 +1,5 @@
 import React from "react";
-import "./ChatMessage.css";
+
 import { FaUserCircle, FaRobot } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
