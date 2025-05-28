@@ -14,34 +14,27 @@ router = APIRouter(
 @router.post("/chat", response_model=ChatQueryResponse)
 async def handle_chat_query(
     request: Annotated[ChatQueryRequest, Body(
-        description="User query to be processed by the AI agent, optionally with conversation history.",
+        description="User query to be processed by the AI agent, optionally with conversation history and user_id.",
         examples=[
             {
-                "summary": "Simple Database Query",
-                "value": {"query": "What is the total sales amount for all orders?"}
+                "summary": "Simple Database Query (as guest)",
+                "value": {"query": "What is the total sales amount for all orders?", "user_id": "guest_global"}
             },
             {
-                "summary": "Simple Document Query",
-                "value": {"query": "What is our company's policy on data privacy?"}
+                "summary": "Financial Query (as manager)",
+                "value": {"query": "What is the profit margin for product X?", "user_id": "manager_emea"}
             },
             {
-                "summary": "Hybrid Query",
-                "value": {"query": "According to our inventory write-off policy, what was the total value of written-off inventory last year for product ID 'XYZ123'?"}
+                "summary": "Financial Query (as analyst - should be denied)",
+                "value": {"query": "What is the profit margin for product X?", "user_id": "analyst_us"}
             },
             {
-                "summary": "Query with User ID",
-                "value": {"query": "List my recent orders.", "user_id": "user123"}
+                "summary": "US Sales Query (as US analyst)",
+                "value": {"query": "Total sales in US?", "user_id": "analyst_us"}
             },
-            {
-                "summary": "Query with History",
-                "value": {
-                    "query": "What about for international destinations?",
-                    "user_id": "user123",
-                    "history": [
-                        {"sender": "user", "text": "What is our policy on shipping high-value goods?"},
-                        {"sender": "ai", "text": "Our policy states X, Y, and Z for high-value goods."}
-                    ]
-                }
+             {
+                "summary": "EMEA Sales Query (as US analyst - should be filtered or denied by SQL if region column check is effective)",
+                "value": {"query": "Total sales in EMEA?", "user_id": "analyst_us"}
             }
         ]
     )]
@@ -51,14 +44,17 @@ async def handle_chat_query(
     try:
         result_dict = run_hybrid_query(
             user_query=request.query,
-            history=request.history
+            history=request.history,
+            user_id=request.user_id # Pass user_id to orchestrator
         )
         response = ChatQueryResponse(**result_dict)
-        logger.info(f"Successfully processed query. Answer snippet: {response.answer[:100]}...")
+        # Avoid logging full answer if it's sensitive and access was just granted by check_query_access
+        # The audit log in access_control.py already logs the attempt.
+        logger.info(f"Successfully processed query for user '{request.user_id or 'N/A'}'. Query type: {response.query_type_debug}")
         return response
     except ImportError as ie:
-        logger.critical(f"ImportError during chat query handling: {ie}. Check PYTHONPATH and module locations.", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Server configuration error: {str(ie)}")
+        logger.critical(f"ImportError: {ie}. Check PYTHONPATH.", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Server config error: {str(ie)}")
     except Exception as e:
         logger.error(f"Unexpected error processing chat query '{request.query}': {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
