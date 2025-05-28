@@ -1,0 +1,130 @@
+.chat-message {
+    display: flex;
+    max-width: 75%; /* Messages don't take full width */
+    align-items: flex-start; /* Align avatar with top of message bubble */
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .message-avatar {
+    margin-right: 12px;
+    flex-shrink: 0; /* Prevent avatar from shrinking */
+    padding-top: 5px; /* Align with first line of text better */
+    color: var(--text-secondary);
+  }
+  
+  .user-message .message-avatar {
+    color: var(--syngenta-green-medium);
+  }
+  .ai-message .message-avatar {
+    color: var(--syngenta-earth-brown); /* Or another distinct color */
+  }
+  
+  
+  .message-content {
+    padding: 10px 15px;
+    border-radius: 15px;
+    line-height: 1.5;
+    word-wrap: break-word; /* Ensure long words break */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+  }
+  
+  .user-message {
+    align-self: flex-end; /* Align user messages to the right */
+    flex-direction: row-reverse; /* Avatar on the right */
+  }
+  
+  .user-message .message-avatar {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  
+  .user-message .message-content {
+    background-color: var(--syngenta-green-medium);
+    color: white;
+    border-bottom-right-radius: 5px; /* "Tail" for user messages */
+  }
+  
+  .ai-message {
+    align-self: flex-start; /* Align AI messages to the left */
+  }
+  
+  .ai-message .message-content {
+    background-color: var(--ai-message-bg); /* Using the variable from App.css */
+    color: var(--text-primary);
+    border-bottom-left-radius: 5px; /* "Tail" for AI messages */
+  }
+  
+  .error-message-bubble .message-content { /* Specific for error messages from AI */
+    background-color: #ffebee; /* Light red background for errors */
+    color: #c62828; /* Darker red text for errors */
+    border: 1px solid #ef9a9a;
+  }
+  .error-message-bubble .message-avatar {
+    color: #c62828;
+  }
+  
+  
+  .message-text p {
+    margin: 0 0 8px 0;
+  }
+  .message-text p:last-child {
+    margin-bottom: 0;
+  }
+  .message-text strong {
+    font-weight: 600;
+  }
+  
+  .message-extras {
+    margin-top: 10px;
+    font-size: 0.85em;
+    opacity: 0.9;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 8px;
+  }
+  .ai-message .message-extras { /* Make extras slightly different for AI */
+     border-top: 1px dashed rgba(0,0,0,0.1); /* Darker dash for AI message */
+  }
+  
+  
+  .extra-title {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-secondary);
+  }
+  .user-message .extra-title {
+    color: rgba(255,255,255,0.8);
+  }
+  .ai-message .extra-title {
+    color: var(--syngenta-green-dark);
+  }
+  
+  
+  .sources-container ul {
+    list-style-type: disc; /* Or none, or custom */
+    padding-left: 20px;
+    margin: 0;
+  }
+  .sources-container li {
+    margin-bottom: 3px;
+  }
+  
+  .sql-container .sql-code {
+    background-color: rgba(0,0,0,0.04);
+    padding: 8px 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre-wrap; /* Wrap long SQL lines */
+    word-break: break-all;
+    font-size: 0.9em;
+    border: 1px solid var(--border-color);
+  }
+  .user-message .sql-container .sql-code {
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+  }

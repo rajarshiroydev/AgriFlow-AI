@@ -1,0 +1,70 @@
+.chat-input-container {
+    padding: 10px 15px;
+    background-color: var(--background-light);
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.03);
+  }
+  
+  .chat-input-form {
+    display: flex;
+    align-items: flex-end; /* Align button with bottom of textarea if it grows */
+  }
+  
+  .chat-input-field {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: none; /* Prevent manual resize */
+    min-height: 24px; /* Roughly one line height + padding */
+    max-height: 120px; /* Limit growth to about 5 lines */
+    line-height: 1.4;
+    font-family: inherit; /* Inherit from body */
+  }
+  
+  .chat-input-field:focus {
+    border-color: var(--syngenta-green-medium);
+    box-shadow: 0 0 0 2px rgba(0, 135, 90, 0.2); /* Focus ring using variable */
+  }
+  
+  .chat-input-button {
+    background-color: var(--syngenta-green-medium);
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+  }
+  
+  .chat-input-button:hover:not(:disabled) {
+    background-color: var(--syngenta-green-dark);
+  }
+  
+  .chat-input-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Simple spinner for loading state */
+  .spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
