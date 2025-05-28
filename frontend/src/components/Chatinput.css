@@ -1,0 +1,69 @@
+/* frontend/src/components/ChatInput/ChatInput.css */
+
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Form takes full width of its parent (.chat-input-container) */
+    /* 
+      The background, border-radius, shadow for the "pill" shape 
+      are handled by the .chat-input-container class in App.css 
+      when in landing-view-active.
+    */
+  }
+  
+  .chat-text-input {
+    flex-grow: 1; /* Input field takes up most of the space */
+    border: none; /* Crucial: Remove default input border */
+    outline: none; /* Crucial: Remove focus outline */
+    padding: 12px 18px; /* Internal padding for text within the input field */
+    font-size: 1rem; /* Or your desired font size, e.g., 0.9em, 15px */
+    line-height: 1.4;
+    background-color: transparent; /* Crucial: Make input field's own background transparent */
+    color: var(--text-primary); /* Use theme variable for text color */
+    /* Ensure it inherits font-family from body or set explicitly if needed */
+    /* font-family: 'Roboto', sans-serif; */ 
+  }
+  
+  .chat-text-input::placeholder {
+    color: var(--text-secondary); /* Use theme variable for placeholder */
+    opacity: 0.7; /* Make placeholder slightly lighter */
+  }
+  
+  .chat-send-button {
+    background-color: var(--accent-green); /* Use theme variable */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 8px; /* Space between input field and button */
+    flex-shrink: 0; /* Prevent button from shrinking */
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .chat-send-button svg {
+    /* If icon needs slight adjustment within button */
+    /* For FiSend size={20}, it should center well by default */
+  }
+  
+  .chat-send-button:hover:not(:disabled) {
+    background-color: var(--secondary-green); /* Darken on hover */
+  }
+  
+  .chat-send-button:disabled {
+    background-color: var(--border-color); /* Muted color when disabled */
+    /* color: var(--text-secondary); */ /* Lighter icon color when disabled */
+    cursor: not-allowed;
+  }
+  
+  /* 
+    No specific styles needed here for landing vs. chat view *within ChatInput.css*
+    because the parent container (.chat-input-container in App.css) 
+    handles the visual change (pill shape vs. full-width bar).
+    This ChatInput.css ensures the internal elements (text input, button)
+    are styled cleanly to fit within either parent style.
+  */

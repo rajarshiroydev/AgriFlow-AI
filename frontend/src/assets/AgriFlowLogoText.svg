@@ -1,0 +1,14 @@
+<svg width="300" height="60" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .logo-text { 
+      font-family: 'Arial', sans-serif; /* Use a very common websafe font for now */
+      font-size: 48px; 
+      font-weight: 600; 
+    }
+    .agriflow-part { fill: #2F5233; }
+    .ai-part { fill: #6A994E; }
+  </style>
+  <text x="10" y="45" class="logo-text">
+    <tspan class="agriflow-part">AgriFlow</tspan><tspan class="ai-part">.ai</tspan>
+  </text>
+</svg>

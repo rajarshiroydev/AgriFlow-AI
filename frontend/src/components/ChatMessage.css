@@ -1,0 +1,161 @@
+.chat-message {
+    display: flex;
+    max-width: 75%;
+    align-items: flex-start;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .message-avatar {
+    margin-right: 12px;
+    flex-shrink: 0;
+    padding-top: 5px;
+    color: var(--text-secondary);
+  }
+  
+  .user-message .message-avatar {
+    color: var(--syngenta-green-medium);
+  }
+  .ai-message .message-avatar {
+    color: var(--syngenta-earth-brown);
+  }
+  
+  .message-content {
+    padding: 10px 15px;
+    border-radius: 15px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+  
+  .user-message .message-avatar {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  
+  .user-message .message-content {
+    background-color: var(--syngenta-green-medium);
+    color: white;
+    border-bottom-right-radius: 5px;
+  }
+  
+  .ai-message {
+    align-self: flex-start;
+  }
+  
+  .ai-message .message-content {
+    background-color: var(--ai-message-bg);
+    color: var(--text-primary);
+    border-bottom-left-radius: 5px;
+  }
+  
+  .error-message-bubble .message-content {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+  }
+  .error-message-bubble .message-avatar {
+    color: #c62828;
+  }
+  
+  .message-text {
+    white-space: pre-line;
+  }
+  
+  .message-text p {
+    margin: 0 0 8px 0;
+  }
+  .message-text p:last-child {
+    margin-bottom: 0;
+  }
+  .message-text strong {
+    font-weight: 600;
+  }
+  
+  .message-extras {
+    margin-top: 10px;
+    font-size: 0.85em;
+    opacity: 0.9;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 8px;
+  }
+  .ai-message .message-extras {
+     border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+  
+  /* Adjust extra titles for dark SQL theme if needed */
+  .ai-message .sql-container .extra-title {
+    color: var(--syngenta-green-dark); /* This might need to be lighter if on dark bg */
+    /* Example: color: #a9b7c6;  A typical light text color for Darcula */
+  }
+  .user-message .sql-container .extra-title {
+    color: rgba(255,255,255,0.8); /* Should be fine on user's dark bubble */
+  }
+  
+  
+  .sources-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+  }
+  .sources-container li {
+    margin-bottom: 3px;
+  }
+  
+  .sql-container .sql-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  /* Copy button styling for dark theme context */
+  .ai-message .copy-sql-button {
+    border: 1px solid #555; /* Darcula-like border */
+    color: #bbb; /* Light text on dark */
+    background-color: #313335; /* Slightly different from Darcula pre background */
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .ai-message .copy-sql-button:hover {
+    background-color: #454749;
+    color: #ccc;
+  }
+  
+  .user-message .copy-sql-button { /* For user message (if it can show SQL) */
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.8);
+    background-color: transparent; /* Assuming user bubble has dark BG */
+  }
+  .user-message .copy-sql-button:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+  
+  /* Wrapper for the SyntaxHighlighter component */
+  .sql-container .sql-code-block-wrapper {
+    /* The SyntaxHighlighter theme (darcula) will provide its own background and padding. */
+    /* This wrapper can provide an outer border or margin if needed. */
+    border-radius: 4px; /* To round the corners of the theme's block if desired */
+    overflow: hidden; /* To clip the theme's block to the border-radius */
+    /* border: 1px solid #555; */ /* Optional: if you want an outer border */
+    margin-top: 3px; /* Space between header and SQL block */
+  }
+  
+  /* No specific background needed for user messages if darcula is used, it will show its dark BG */
+  .user-message .sql-container .sql-code-block-wrapper {
+    /* border: 1px solid #777; */ /* Optional: adjust if needed */
+  }
