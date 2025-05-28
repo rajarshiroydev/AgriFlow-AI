@@ -1,16 +1,26 @@
-# Pydantic models for API requests/responses
 # SYNGENTA_AI_AGENT/app/models.py
 
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
+from typing import Optional, List, Any, Dict # Added Dict
+
+class HistoryMessage(BaseModel):
+    """
+    Represents a single message turn in the conversation history.
+    'sender' can be 'user' or 'ai'.
+    'text' is the content of the message.
+    """
+    sender: str = Field(..., description="Sender of the message, e.g., 'user' or 'ai'")
+    text: str = Field(..., description="The text content of the message.")
 
 class ChatQueryRequest(BaseModel):
     """
     Request model for the /chat endpoint.
+    Now includes conversation history.
     """
     query: str = Field(..., description="The natural language query from the user.")
     user_id: Optional[str] = Field(None, description="Optional user ID for tracking or personalization.")
-    # session_id: Optional[str] = Field(None, description="Optional session ID for conversation history.") # Future use
+    # session_id: Optional[str] = Field(None, description="Optional session ID for conversation history.") # Still future use if we switch to server-side
+    history: Optional[List[HistoryMessage]] = Field(None, description="A list of previous user queries and AI responses for conversational context.")
 
 class ChatQueryResponse(BaseModel):
     """
@@ -30,11 +40,5 @@ class ChatQueryResponse(BaseModel):
     debug_info_orchestrator: Optional[str] = Field(None, description="Additional debug information from the orchestration process.")
     error: Optional[str] = Field(None, description="Error message if the query processing failed at some stage.")
 
-    # Example of how you might add more structured context in the future
-    # document_context_snippets: Optional[List[Dict[str, Any]]] = Field(None, description="Snippets of context from documents.")
-    # database_results_summary: Optional[Any] = Field(None, description="Summary of raw database results.")
-
     class Config:
-        # This allows Pydantic to handle cases where a default value is None but you want to explicitly show it in the schema
-        # orjson_mode = True # if using orjson for faster JSON, not strictly needed here
         pass
