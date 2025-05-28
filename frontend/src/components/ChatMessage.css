@@ -1,7 +1,7 @@
 .chat-message {
     display: flex;
-    max-width: 75%; /* Messages don't take full width */
-    align-items: flex-start; /* Align avatar with top of message bubble */
+    max-width: 75%;
+    align-items: flex-start;
     animation: fadeIn 0.3s ease-out;
   }
   
@@ -12,8 +12,8 @@
   
   .message-avatar {
     margin-right: 12px;
-    flex-shrink: 0; /* Prevent avatar from shrinking */
-    padding-top: 5px; /* Align with first line of text better */
+    flex-shrink: 0;
+    padding-top: 5px;
     color: var(--text-secondary);
   }
   
@@ -21,21 +21,20 @@
     color: var(--syngenta-green-medium);
   }
   .ai-message .message-avatar {
-    color: var(--syngenta-earth-brown); /* Or another distinct color */
+    color: var(--syngenta-earth-brown);
   }
-  
   
   .message-content {
     padding: 10px 15px;
     border-radius: 15px;
     line-height: 1.5;
-    word-wrap: break-word; /* Ensure long words break */
+    word-wrap: break-word;
     box-shadow: 0 1px 2px rgba(0,0,0,0.07);
   }
   
   .user-message {
-    align-self: flex-end; /* Align user messages to the right */
-    flex-direction: row-reverse; /* Avatar on the right */
+    align-self: flex-end;
+    flex-direction: row-reverse;
   }
   
   .user-message .message-avatar {
@@ -46,28 +45,31 @@
   .user-message .message-content {
     background-color: var(--syngenta-green-medium);
     color: white;
-    border-bottom-right-radius: 5px; /* "Tail" for user messages */
+    border-bottom-right-radius: 5px;
   }
   
   .ai-message {
-    align-self: flex-start; /* Align AI messages to the left */
+    align-self: flex-start;
   }
   
   .ai-message .message-content {
-    background-color: var(--ai-message-bg); /* Using the variable from App.css */
+    background-color: var(--ai-message-bg);
     color: var(--text-primary);
-    border-bottom-left-radius: 5px; /* "Tail" for AI messages */
+    border-bottom-left-radius: 5px;
   }
   
-  .error-message-bubble .message-content { /* Specific for error messages from AI */
-    background-color: #ffebee; /* Light red background for errors */
-    color: #c62828; /* Darker red text for errors */
+  .error-message-bubble .message-content {
+    background-color: #ffebee;
+    color: #c62828;
     border: 1px solid #ef9a9a;
   }
   .error-message-bubble .message-avatar {
     color: #c62828;
   }
   
+  .message-text {
+    white-space: pre-line;
+  }
   
   .message-text p {
     margin: 0 0 8px 0;
@@ -86,10 +88,9 @@
     border-top: 1px dashed var(--border-color);
     padding-top: 8px;
   }
-  .ai-message .message-extras { /* Make extras slightly different for AI */
-     border-top: 1px dashed rgba(0,0,0,0.1); /* Darker dash for AI message */
+  .ai-message .message-extras {
+     border-top: 1px dashed rgba(0,0,0,0.1);
   }
-  
   
   .extra-title {
     font-weight: 600;
@@ -104,9 +105,8 @@
     color: var(--syngenta-green-dark);
   }
   
-  
   .sources-container ul {
-    list-style-type: disc; /* Or none, or custom */
+    list-style-type: disc;
     padding-left: 20px;
     margin: 0;
   }
@@ -119,7 +119,7 @@
     padding: 8px 12px;
     border-radius: 4px;
     overflow-x: auto;
-    white-space: pre-wrap; /* Wrap long SQL lines */
+    white-space: pre-wrap;
     word-break: break-all;
     font-size: 0.9em;
     border: 1px solid var(--border-color);
