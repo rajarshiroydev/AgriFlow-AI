@@ -5,14 +5,13 @@
 1.  [Project Overview](#project-overview)
 2.  [Features](#features)
 3.  [Tech Stack](#tech-stack)
-4.  [Project Structure](#project-structure-key-directories)
-5.  [Setup and Installation](#setup-and-installation)
+4.  [Setup and Installation](#setup-and-installation)
     - [Prerequisites](#prerequisites)
     - [Step-by-Step Instructions](#step-by-step-instructions)
-6.  [Usage](#usage)
-7.  [Sample Questions to Test Access Control](#sample-questions-to-test-access-control)
-8.  [Stopping the Application](#stopping-the-application)
-9.  [Troubleshooting](#troubleshooting)
+5.  [Usage](#usage)
+6.  [Sample Questions to Test Access Control](#sample-questions-to-test-access-control)
+7.  [Stopping the Application](#stopping-the-application)
+8.  [Troubleshooting](#troubleshooting)
 
 ## Project Overview
 
@@ -58,12 +57,12 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
 1.  **Clone the Repository:**
 
     ```bash
-    git clone <your_repository_url>
-    cd <repository_folder_name>
+    git clone https://github.com/soumyadeep-git/AgriFlow-AI.git
+    cd backend/
     ```
 
 2.  **Configure Environment Variables (`.env`):**
-    Navigate to the root directory of the cloned project. You should find a `.env` file. If it's not present, create one.
+    Navigate to the backend directory of the cloned project. You should find a `.env` file.
     This file contains crucial settings, including API keys. **You will need to add your Syngenta Hackathon API Key.**
 
     Open the `.env` file. It should look similar to this (especially the API key part):
@@ -75,8 +74,7 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
     #OPENAI_API_KEY="sk-..."
 
     SYNGENTA_HACKATHON_API_KEY="your-api-key-here"
-    SYNGENTA_HACKATHON_API_BASE_URL="https://quchnti6xu7yzw7hfzt5yjqtvi0kafsq.lambda-url.eu-central-1.on.aws/"
-
+    
     # ... other variables like VECTOR_STORE_PATH ...
     ```
 
@@ -84,10 +82,10 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
     - Ensure all other URLs (DATABASE_URL, CELERY_BROKER_URL, CELERY_RESULT_BACKEND) are configured to use Docker service names as hostnames (e.g., `postgres_db`, `rabbitmq`, `redis`). The provided `.env` should already have these if it was committed.
 
 3.  **Build and Start Backend Docker Containers:**
-    From the project root directory:
+    Ensure that you are on the backend directory:
 
     ```bash
-    docker-compose up --build -d
+       docker-compose up --build -d
     ```
 
     - This command builds the Docker images for backend services and starts them in detached mode.
@@ -107,6 +105,14 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
       docker-compose exec app python scripts/ingest_documents.py
       ```
       _(This script processes PDFs and generates embeddings. **This step can take several minutes.** Please be patient and monitor the console output for completion or errors.)_
+
+    - **c. You can change the logs of the app if you want to(Optional):**
+      ```bash
+      docker-compose logs -f app
+      ```
+      _(This script processes PDFs and generates embeddings. **This step can take several minutes.** Please be patient and monitor the console output for completion or errors.)_
+      
+      
 
 5.  **Run the Frontend Application:**
     You will need two terminals open simultaneously for this step and the next.
