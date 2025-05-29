@@ -113,7 +113,7 @@ def create_and_persist_vector_store(documents: List[Any], embeddings_client: Syn
         # No explicit vector_db.persist() is typically needed with Chroma.from_documents when persist_directory is set,
         # as it writes as it goes. However, calling it doesn't hurt and ensures everything is flushed.
         logger.info("Persisting vector store changes (if any)...")
-        vector_db.persist() 
+        #vector_db.persist() 
         logger.info(f"Successfully created/updated and persisted Chroma vector store at {persist_directory}")
         return vector_db
     except Exception as e:
