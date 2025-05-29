@@ -30,6 +30,10 @@ AgriFlow.ai is an intelligent AI agent designed for the Syngenta Hackathon. It e
   - Audit logging for access attempts.
 - **Interactive UI:** A React-based chat interface for user interaction, including features like SQL display formatting, syntax highlighting, copy-to-clipboard, and chat history management with rename/delete capabilities.
 - **Custom LLM & Embedding Integration:** Utilizes a specific hackathon API endpoint for all Large Language Model (Claude 3.5 Sonnet) and Embedding (Amazon Titan) calls.
+![Screenshot 2025-05-29 at 11 49 30 AM](https://github.com/user-attachments/assets/debc7b51-d0e1-44e8-aae6-700870bca595)
+![Screenshot 2025-05-29 at 11 48 56 AM](https://github.com/user-attachments/assets/4e4967f5-4e2c-49a6-a127-a0ad7c149a9a)
+![Screenshot 2025-05-29 at 11 56 42 AM](https://github.com/user-attachments/assets/8e184594-14ae-4122-b95d-5a07142b56f3)
+
 
 ## Tech Stack
 
