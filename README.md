@@ -98,6 +98,8 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
 4.  **Run Data Processing Scripts (Inside Docker):**
     Execute these commands one after the other from the project root directory. Wait for each to complete.
 
+    **4.1. Before running these commands download the .csv file from https://www.kaggle.com/datasets/saicharankomati/dataco-supply-chain-dataset and keep it in backend/data/raw (just outside the dataco-global-policy-dataset folder)**
+
     - **a. Load SQL Data into PostgreSQL:**
 
       ```bash
@@ -118,7 +120,7 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
       
       
 
-5.  **Run the Frontend Application:**
+6.  **Run the Frontend Application:**
     You will need two terminals open simultaneously for this step and the next.
 
     - **Terminal 1 (Backend - Already Running):** Your Docker containers (FastAPI, database, etc.) should be running from Step 3. You can monitor their logs with `docker-compose logs -f app`.
