@@ -1,4 +1,18 @@
-# AgriFlow.ai - Syngenta AI Agent Hackathon
+# <span style="color: #2F5233;">AgriFlow</span><span style="color: #6A994E;">.ai</span> - Syngenta AI Agent Hackathon
+
+## Table of Contents
+
+1.  [Project Overview](#project-overview)
+2.  [Features](#features)
+3.  [Tech Stack](#tech-stack)
+4.  [Project Structure](#project-structure-key-directories)
+5.  [Setup and Installation](#setup-and-installation)
+    - [Prerequisites](#prerequisites)
+    - [Step-by-Step Instructions](#step-by-step-instructions)
+6.  [Usage](#usage)
+7.  [Sample Questions to Test Access Control](#sample-questions-to-test-access-control)
+8.  [Stopping the Application](#stopping-the-application)
+9.  [Troubleshooting](#troubleshooting)
 
 ## Project Overview
 
@@ -15,7 +29,7 @@ AgriFlow.ai is an intelligent AI agent designed for the Syngenta Hackathon. It e
   - Simulated Role-Based Access Control (RBAC) to restrict data access based on user roles.
   - Geographic data filtering based on user profiles.
   - Audit logging for access attempts.
-- **Interactive UI:** A React-based chat interface for user interaction, including features like SQL display formatting, copy-to-clipboard, and chat history management.
+- **Interactive UI:** A React-based chat interface for user interaction, including features like SQL display formatting, syntax highlighting, copy-to-clipboard, and chat history management with rename/delete capabilities.
 - **Custom LLM & Embedding Integration:** Utilizes a specific hackathon API endpoint for all Large Language Model (Claude 3.5 Sonnet) and Embedding (Amazon Titan) calls.
 
 ## Tech Stack
@@ -25,22 +39,21 @@ AgriFlow.ai is an intelligent AI agent designed for the Syngenta Hackathon. It e
 - **Embeddings:** Amazon Titan (via custom Hackathon API)
 - **Vector Store:** ChromaDB
 - **Database:** PostgreSQL
-- **Task Queue (Optional - if Celery is actively used beyond initial setup):** Celery, RabbitMQ, Redis
+- **Task Queue:** RabbitMQ, Redis (Primarily for Celery, if full async tasks are implemented beyond core chat)
 - **Frontend:** React.js
 - **Containerization:** Docker, Docker Compose
-
-## Project Structure (Key Directories)
 
 ## Setup and Installation
 
 Follow these steps to set up and run the AgriFlow.ai application locally using Docker.
 
-**Prerequisites:**
+### Prerequisites
 
 - **Git:** [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - **Docker & Docker Compose:** [Install Docker Desktop](https://www.docker.com/products/docker-desktop/) (which includes Docker Compose). Ensure Docker is running.
+- **Node.js & npm (or yarn):** Required to run the React frontend development server. [Install Node.js and npm](https://nodejs.org/).
 
-**Instructions:**
+### Step-by-Step Instructions
 
 1.  **Clone the Repository:**
 
@@ -49,68 +62,63 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
     cd <repository_folder_name>
     ```
 
-2.  **Create Environment File (`.env`):**
-    In the root directory of the project, create a file named `.env`. Copy the contents from `.env.example` (if provided) or use the template below, filling in your actual credentials and paths if necessary.
+2.  **Configure Environment Variables (`.env`):**
+    Navigate to the root directory of the cloned project. You should find a `.env` file. If it's not present, create one.
+    This file contains crucial settings, including API keys. **You will need to add your Syngenta Hackathon API Key.**
 
-    **Example `.env` content:**
+    Open the `.env` file. It should look similar to this (especially the API key part):
 
     ```env
-    ENVIRONMENT=development
+    # ... other variables like DATABASE_URL, CELERY_BROKER_URL etc. ...
 
-    # Docker service names are used as hostnames
-    DATABASE_URL=postgresql://syngenta_user:syngenta_password@postgres_db:5432/syngenta_supplychain_db
-    CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
-    CELERY_RESULT_BACKEND=redis://redis:6379/0
+    # Add your LLM API Keys here
+    #OPENAI_API_KEY="sk-..."
 
-    # Syngenta Hackathon API Credentials
-    SYNGENTA_HACKATHON_API_KEY=YOUR_ACTUAL_HACKATHON_API_KEY
-    SYNGENTA_HACKATHON_API_BASE_URL=https://quchnti6xu7yzw7hfzt5yjqtvi0kafsq.lambda-url.eu-central-1.on.aws/ # Or your specific endpoint
+    SYNGENTA_HACKATHON_API_KEY="your-api-key-here"
+    SYNGENTA_HACKATHON_API_BASE_URL="https://quchnti6xu7yzw7hfzt5yjqtvi0kafsq.lambda-url.eu-central-1.on.aws/"
 
-    # Path for the vector store (relative to project root when scripts run inside Docker container's /app mount)
-    VECTOR_STORE_PATH=data/processed/vector_store
+    # ... other variables like VECTOR_STORE_PATH ...
     ```
 
-    - **Important:** Replace `YOUR_ACTUAL_HACKATHON_API_KEY` with the API key provided for the hackathon.
+    - **Replace `"your-api-key-here"` with the actual `SYNGENTA_HACKATHON_API_KEY` provided for the hackathon.**
+    - Ensure all other URLs (DATABASE_URL, CELERY_BROKER_URL, CELERY_RESULT_BACKEND) are configured to use Docker service names as hostnames (e.g., `postgres_db`, `rabbitmq`, `redis`). The provided `.env` should already have these if it was committed.
 
-3.  **Build and Start Docker Containers:**
-    From the project root directory (where `docker-compose.yml` is located), run:
+3.  **Build and Start Backend Docker Containers:**
+    From the project root directory:
 
     ```bash
     docker-compose up --build -d
     ```
 
-    - `--build`: Builds the Docker images for your application services.
-    - `-d`: Runs containers in detached mode (in the background).
-    - This command will start the FastAPI backend, PostgreSQL database, RabbitMQ, Redis, and the Celery worker (if configured).
-    - Wait a minute or two for all services to initialize, especially the database. You can check the status with `docker-compose ps`.
+    - This command builds the Docker images for backend services and starts them in detached mode.
+    - Wait for services like `postgres_db`, `rabbitmq`, `redis`, and `app` (FastAPI) to initialize. Check status with `docker-compose ps`.
 
-4.  **Run Data Processing Scripts:**
-    These scripts need to be run once to load data into the PostgreSQL database and create the vector store from PDF documents. Execute them inside the running `app` container:
+4.  **Run Data Processing Scripts (Inside Docker):**
+    Execute these commands one after the other from the project root directory. Wait for each to complete.
 
-    - **a. Load SQL Data:**
+    - **a. Load SQL Data into PostgreSQL:**
 
       ```bash
       docker-compose exec app python scripts/load_sql_data.py
       ```
 
-      _(Wait for this to complete. It will populate the `supply_chain_transactions` table.)_
-
-    - **b. Ingest Documents for Vector Store:**
+    - **b. Ingest PDF Documents into Vector Store:**
       ```bash
       docker-compose exec app python scripts/ingest_documents.py
       ```
-      _(This script will process PDFs, generate embeddings via the hackathon API, and create a ChromaDB vector store. **This step can take several minutes** depending on the number of documents and API responsiveness. Please be patient.)_
+      _(This script processes PDFs and generates embeddings. **This step can take several minutes.** Please be patient and monitor the console output for completion or errors.)_
 
-5.  **Access the Application:**
+5.  **Run the Frontend Application:**
+    You will need two terminals open simultaneously for this step and the next.
 
-    - **Frontend (React App):**
-      The React frontend is typically run with its own development server.
+    - **Terminal 1 (Backend - Already Running):** Your Docker containers (FastAPI, database, etc.) should be running from Step 3. You can monitor their logs with `docker-compose logs -f app`.
 
+    - **Terminal 2 (Frontend - React Development Server):**
       1.  Navigate to the frontend directory:
           ```bash
           cd frontend
           ```
-      2.  Install dependencies (if you haven't already):
+      2.  Install dependencies (if not already done, or if `package-lock.json` changed):
           ```bash
           npm install
           # OR
@@ -122,43 +130,47 @@ Follow these steps to set up and run the AgriFlow.ai application locally using D
           # OR
           # yarn start
           ```
-      4.  Open your browser and go to `http://localhost:3000` (or the port indicated by the React dev server). The React app is configured to communicate with the backend API running on port 8000.
-
-    - **Backend API Docs (Optional):**
-      The FastAPI backend documentation (Swagger UI) can be accessed at `http://localhost:8000/docs`. The main chat endpoint is `POST /api/v1/chat`.
+      4.  This will typically open the application automatically in your default web browser at `http://localhost:3000`. If not, manually open it.
 
 ## Usage
 
-1.  Once the frontend is running at `http://localhost:3000`, you can start interacting with the AgriFlow.ai assistant.
-2.  On the initial landing page, type your query into the input bar.
-3.  After your first query, the interface will transition to the chat view, showing a sidebar with:
-    - A "New Chat" button.
-    - A user profile selector (to simulate different roles like "Guest", "Analyst US", "Manager EMEA", "Admin"). Changing the profile will start a new chat session reflecting the selected user's access rights.
-    - Chat history, categorized by "Today", "Yesterday", etc. You can click on past chats to load them.
-    - Options to rename or delete saved chats.
-4.  Ask questions related to Syngenta policies or supply chain data. Try the [Sample Questions](#sample-questions) below for inspiration.
+1.  Once the frontend is running at `http://localhost:3000`, you can interact with the AgriFlow.ai assistant.
+2.  The initial landing page presents the logo and a prompt. Type your query to begin.
+3.  The interface will transition to a chat view with a sidebar for:
+    - Starting a "New Chat".
+    - Selecting a "Simulated User Profile" (Guest, Analyst US, Manager EMEA, Admin) to test access control. Changing profiles starts a new session.
+    - Viewing and loading past chat sessions (with options to rename/delete).
+4.  Explore by asking questions about policies or supply chain data.
 
 ## Sample Questions to Test Access Control
 
 - **As "Guest (Global)":**
-  - "What is our company's policy on data privacy?" (Should be allowed)
+  - "What is our company policy on data privacy?" (Should be allowed)
   - "What is the total sales amount for all orders?" (Should be denied)
 - **As "Analyst (US)":**
-  - "What is the total sales amount?" (Should be allowed and filtered to US data)
-  - "What is the total sales in EMEA?" (Should be denied or state data not available)
-  - "What is the profit margin for product X?" (Should be denied - no financial metrics permission)
+  - "What is the total sales amount?" (Allowed, filtered to US data)
+  - "What is the total sales in EMEA?" (Denied or "data not available")
+  - "What is the profit margin for product X?" (Denied - no financial metrics permission)
 - **As "Manager (EMEA)":**
-  - "Show me profit margins for all products." (Should be allowed and filtered to EMEA data)
+  - "Show me profit margins for all products." (Allowed, filtered to EMEA data)
 - **As "Administrator (Global)":**
-  - "What are the total sales in US and EMEA combined?" (Should be allowed)
-  - "Which products that are classified as 'hazardous materials' according to our HSE policy are currently being stored in facilities not certified for such materials?" (Complex hybrid query, should be allowed)
+  - This user profile has `admin_override_all` and broad permissions. Most queries, including cross-regional ones and those involving sensitive data types (like financials), should be **GRANTED**. For example: "What are the total sales in US and EMEA combined?" or "List all products and their profit margins globally."
 
-_(You can list more of your sample questions here)_
+_(List other complex/hybrid sample questions here)_
 
 ## Stopping the Application
 
-To stop all running Docker containers:
+1.  **To stop backend Docker containers:**
+    In the terminal where you ran `docker-compose up` (or any terminal in the project root):
+    ```bash
+    docker-compose down
+    ```
+2.  **To stop the React development server:**
+    In Terminal 2 (where `npm start` or `yarn start` is running), press `Ctrl+C`.
 
-```bash
-docker-compose down
-```
+## Troubleshooting
+
+- **`no configuration file provided: not found` (for `docker-compose`):** Ensure you are in the project's root directory where `docker-compose.yml` is located when running `docker-compose` commands.
+- **Port Conflicts:** If ports (e.g., 8000, 3000, 5432) are in use, services might fail to start. Check terminal output for errors.
+- **API Key Errors:** Double-check `SYNGENTA_HACKATHON_API_KEY` in `.env`. Backend logs (`docker-compose logs -f app`) will show API call issues.
+- **`ingest_documents.py` "Stuck":** This script takes time for embeddings. Be patient. If it errors, check its output.
